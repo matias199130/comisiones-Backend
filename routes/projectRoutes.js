@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../config/config');
-const { authenticateToken, verifyAdmin, verifyUser } = require('../middleware/authMiddleware');
+const { authenticateToken, verifyAdmin } = require('../middleware/authMiddleware');
 
 // Obtener todos los proyectos (acceso para todos los usuarios autenticados)
 router.get('/', authenticateToken, async (req, res) => {
@@ -13,18 +13,21 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Obtener un proyecto específico por ID (acceso para todos los usuarios autenticados)
-router.get('/:id', authenticateToken, async (req, res) => {
+
+
+// Obtener proyectos específicos por ID de categoría (acceso para todos los usuarios autenticados)
+router.get('/:categoria_id', authenticateToken, async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM proyectos WHERE id = ?', [req.params.id]);
+        const [rows] = await pool.query('SELECT * FROM proyectos WHERE categoria_id = ?', [req.params.categoria_id]);
         if (rows.length === 0) {
-            return res.status(404).json({ error: 'Proyecto no encontrado' });
+            return res.status(404).json({ error: 'No se encontraron proyectos para esta categoría' });
         }
-        res.json(rows[0]);
+        res.json(rows);
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener el proyecto' });
+        res.status(500).json({ error: 'Error al obtener los proyectos' });
     }
 });
+
 
 // Crear un nuevo proyecto (solo para administradores)
 router.post('/', authenticateToken, verifyAdmin, async (req, res) => {
@@ -41,7 +44,7 @@ router.post('/', authenticateToken, verifyAdmin, async (req, res) => {
             [nombre_proyecto, fecha_ingresada, proyeccion, estado, archivo_documento, categoria_id]
         );
 
-        res.status(201).json({ id: result.insertId });
+        res.status(201).send("su proyecto ha sido creado");
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Error al crear el proyecto' });

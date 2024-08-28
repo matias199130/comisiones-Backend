@@ -1,8 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+        return next(); // Omite la autenticación en desarrollo
+    }
+
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
+
 
     if (token == null) return res.sendStatus(401);
 
@@ -14,6 +19,10 @@ const authenticateToken = (req, res, next) => {
 };
 
 const verifyAdmin = (req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+        return next(); // Omite la autenticación en desarrollo
+    }
+        
     if (req.user.rol !== 'admin') {
         return res.status(403).json({ error: 'Acceso denegado' });
     }
