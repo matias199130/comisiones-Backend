@@ -151,7 +151,21 @@ Esta documentación describe las rutas de la API del backend para gestionar proy
 
   ### 3. Usuarios
     
-   #### Obtener Usuarios
+#### Registrar un Usuario
+
+- **URL:** `/api/users/register`
+- **Método:** `POST`
+- **Descripción:** Registra un nuevo usuario en el sistema.
+- **Body:**
+
+  ```json
+  {
+      "documento": "12345678",
+      "rol": "admin"
+  }
+
+
+#### Obtener Usuarios
     
 *   **Ruta**: `/api/users`
 *   **Método**: `GET`
@@ -170,8 +184,113 @@ Esta documentación describe las rutas de la API del backend para gestionar proy
     ] 
    ```
 
+*   **Respuesta Exitosa**:
 
-  **Errores Comunes**:
+```
+{
+    "message": "Usuario registrado exitosamente",
+    "user": {
+        "id": 1,
+        "documento": "12345678",
+        "rol": "admin"
+    }
+}
+
+```
+
+*    **Código de Respuesta**: 201 Created
+
+*    **Obtener Todos los Usuarios**
+*    **URL**: `/api/users`
+*    **Método**: `GET`
+*    **Descripción**: ` Obtiene una lista de todos los usuarios registrados. (Debe estar autenticado y autorizado)`
+
+
+**Respuesta Exitosa**:
+
+
+```
+[
+    {
+        "id": 1,
+        "documento": "12345678",
+        "rol": "admin"
+    },
+    {
+        "id": 2,
+        "documento": "87654321",
+        "rol": "user"
+    }
+]
+```
+
+
+**Código de Respuesta**: 200 OK
+
+
+* **Proyectos**
+* **Crear un Proyecto**
+* **URL**: `/api/projects`
+* **Método**: `POST`
+* **Descripción**: `Crea un nuevo proyecto. (Debe estar autenticado y autorizado como administrador)`
+* **Body**:
+
+```
+{
+    "nombre_proyecto": "Nuevo Proyecto",
+    "fecha_ingresada": "2024-08-28",
+    "proyeccion": "HCD",
+    "estado": "En progreso",
+    "archivo_documento": "documento.pdf",
+    "categoria_id": 1
+}
+```
+
+
+* **Respuesta Exitosa**:
+
+
+```
+{
+    "id": 1
+}
+```
+
+*   **Código de Respuesta**: `201 Created`
+*   **Obtener Proyectos por Categoría**
+*   **URL**: `/api/projects/categoria/:categoria_id`
+*   **Método**: `GET`
+*   **Descripción**: `Obtiene todos los proyectos de una categoría específica.`
+
+*   **Respuesta Exitosa**:
+
+
+```
+[
+    {
+        "id": 1,
+        "nombre_proyecto": "Proyecto 1",
+        "fecha_ingresada": "2024-08-28",
+        "proyeccion": "HCD",
+        "estado": "En progreso",
+        "archivo_documento": "documento1.pdf",
+        "categoria_id": 1
+    },
+    {
+        "id": 2,
+        "nombre_proyecto": "Proyecto 2",
+        "fecha_ingresada": "2024-08-28",
+        "proyeccion": "2025",
+        "estado": "Finalizado",
+        "archivo_documento": "documento2.pdf",
+        "categoria_id": 1
+    }
+]
+```
+
+*    **Código de Respuesta**: 200 OK
+
+*    **Errores Comunes**:
      `403 Forbidden` - No tiene permisos para acceder a esta ruta.
      `500 Internal Server Error` - Error al obtener usuarios.
 
