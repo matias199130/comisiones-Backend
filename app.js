@@ -29,5 +29,11 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(process.env.PORT || 3001, async () => {
     console.log(`Server running on port ${process.env.PORT || 3001}`)
+try {
+    await sequelize.authenticate();
+    console.log('Conexión a la base de datos establecida con éxito');
+} catch (error) {
+    console.error('No se pudo conectar a la base de datos:', error);
+}
 });
 
