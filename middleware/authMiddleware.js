@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
+   /*  if (process.env.NODE_ENV === 'development') {
         return next(); // Omite la autenticación en desarrollo
-    }
+    } */
 
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

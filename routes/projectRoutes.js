@@ -14,7 +14,6 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 
-
 // Obtener proyectos específicos por ID de categoría (acceso para todos los usuarios autenticados)
 router.get('/:categoria_id', authenticateToken, async (req, res) => {
     try {

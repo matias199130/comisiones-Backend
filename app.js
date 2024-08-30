@@ -5,7 +5,7 @@ const { sequelize } = require('./models'); // Importar la conexión a la base de
 const projectRoutes = require('./routes/projectRoutes');
 const userRoutes = require('./routes/userRoutes');
 const { authenticateToken, verifyAdmin } = require('./middleware/authMiddleware');
-
+const categoriesRoutes = require('./routes/categoriaRoutes'); // Ajusta la ruta según sea necesario
 
 // Crear una instancia de Express
 const app = express();
@@ -18,8 +18,9 @@ app.use(express.json()); // Middleware para parsear JSON
 app.use('/api/projects', authenticateToken, projectRoutes); // Protege las rutas de proyectos con autenticación
 app.use('/api/projects/admin', authenticateToken, verifyAdmin, projectRoutes); // Rutas que requieren permisos de admin
 app.use('/api/users', userRoutes);
-
+app.use('/api', categoriesRoutes); // Utiliza las rutas para categorías
 // Ruta de inicio
+
 app.get('/', (req, res) => {
     res.send('Bienvenido al API del partido La Libertad Avanza');
 });
