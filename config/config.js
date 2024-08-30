@@ -13,3 +13,6 @@ const pool = mysql.createPool({
 });
 
 module.exports = pool.promise();
+
+
+//mysql://root:KiwPlXQtrCNKOEukCytavVBRiJfuPqVQ@junction.proxy.rlwy.net:31059/railway
